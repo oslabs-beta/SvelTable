@@ -4,7 +4,7 @@ Thank you for taking the time to consider contributing to our project. It's peop
 
 Where do I start?
 
-If you have spotted a bug or have a feature request, please open an [issue post](https://github.com/oslabs-beta/SvelTable/issues/new). That way we can get further information from other users experience the bug or confirm that the feature isn't already in development.
+If you have spotted a bug or have a feature request, please open an [issue post](https://github.com/oslabs-beta/SvelTable/issues/new). That way we can get further information from other users that have experienced the bug or confirm that the feature isn't already in development.
 All other questions should be posted to the project's [reddit.](https://www.reddit.com/r/sveltable/) Github is for bugs and feature requests only.
 
 #  Fork
