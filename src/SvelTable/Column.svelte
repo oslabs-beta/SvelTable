@@ -1,8 +1,4 @@
 <script>
-  /* NOTES
-  export creates a prop for the component
-  */
-
   /* PSEUDOCODE
     columns are an array of all the keys of the obj
   */

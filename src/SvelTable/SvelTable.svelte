@@ -1,8 +1,6 @@
 <script>
 	import Column from './Column.svelte';
-	/* NOTES
-  export creates a prop for the component
-  */
+  import Row from './Row.svelte'
 
 	/* PSEUDOCODE
   import Row Component/ Column Component
@@ -21,6 +19,7 @@
 
 <div class='MainContainer'>
   <Column {columnData} />
+  <Row rows={dataSet}/>
 </div>
 
 <style>
