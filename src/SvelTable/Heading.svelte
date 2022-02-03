@@ -1,10 +1,16 @@
 <script>
 	export let displayText = '';
 	export let colID = 0;
-	import { columnWidth } from './store';
+	import { columnWidth, columnMinWidth } from './store';
+	
+
+	/* Create handler for resetting 'columnWidth' at specific 'colID':
+		- if user selects 
+	*/
 </script>
 
-<div class="SvelTableHeading" {colID} style="width: {$columnWidth[colID].toString() + 'px'};">
+
+<div class="SvelTableHeading" {colID} style="min-width: {$columnMinWidth + 'px'}; width: {$columnWidth[colID] + 'px'};">
 	{displayText}
 </div>
 

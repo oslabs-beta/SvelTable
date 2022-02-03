@@ -2,10 +2,10 @@
 	export let displayText = '';
 	export let colID = 0;
 	export let rowID = 0;
-	import { columnWidth } from './store';
+	import { columnWidth, columnMinWidth } from './store';
 </script>
 
-<div class="SvelTableCell" {colID} {rowID} style="width: {$columnWidth[colID].toString() + 'px'};">
+<div class="SvelTableCell" {colID} {rowID} style="min-width: {$columnMinWidth + 'px'}; width: {$columnWidth[colID] + 'px'};">
 	{displayText}
 </div>
 
