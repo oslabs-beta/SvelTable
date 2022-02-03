@@ -1,4 +1,15 @@
 <script>
+	// Note to team: Lightweight even when displaying a huge dataset due to implementation of a "virtual list" mechanism
+	import Heading from './Heading.svelte';
+	import Cell from './Cell.svelte';
+	import { columnWidth } from './store';
+	// receives dataset from user (default value of empty arr)
+	export let dataSet = [];
+	export let rowSetting = {};
+	export let colSetting = {};
+	// getting all keys for headings
+	const keys = Object.keys(dataSet[0]);
+
 	/* PSEUDOCODE
   import Row Component/Column Component
     pass required data to each component
@@ -8,39 +19,30 @@
       each key is a heading/column
   */
 
-	// Note to team: Lightweight even when displaying a huge dataset due to implementation of a "virtual list" mechanism
-	import Heading from './Heading.svelte';
-	import Cell from './Cell.svelte';
-	import Column from './Column.svelte';
-	import Row from './Row.svelte';
+	const colWidthDefault = keys.map(() => {
+		return 500;
+	});
 
-	// receives dataset from user (default value of empty arr)
-	export let dataSet = [];
-	export let rowSetting = {};
-	export let colSetting = {};
-	// determine number of columns required to generate Column containers
-	const keys = Object.keys(dataSet[0]);
-
-	// determine number of rows INCLUDING headings
-	const numRow = dataSet.length + 1;
-
+	columnWidth.set(colWidthDefault);
+	// console.log($columnWidth);
+	// columnWidth = [500,500,500,500,500]
 	/* 
   make settings for row and column a global state/variable
 	when features are added, those feature component will alter global settings because the table relies on the setting state it will REACT to the change
   */
 </script>
 
-<div class="SveltableContainer">
+<div class="SvelTableContainer">
 	<div class="HeadingContainer">
 		{#each keys as heading, i}
-			<Heading displayText={heading} colID={i.toString()} />
+			<Heading displayText={heading} colID={i} />
 		{/each}
 	</div>
 	<div class="DataContainer">
 		{#each dataSet as row, i}
-			<div class="SveltableRow">
+			<div class="SvelTableRow">
 				{#each Object.entries(row) as keyVal, j}
-					<Cell displayText={keyVal[1]} colID={j.toString()} rowID={i.toString()} />
+					<Cell displayText={keyVal[1]} colID={j} rowID={i} />
 				{/each}
 			</div>
 		{/each}
@@ -48,7 +50,7 @@
 </div>
 
 <style>
-	.SveltableContainer {
+	.SvelTableContainer {
 		width: 60%;
 		display: flex;
 		flex-direction: column;
@@ -60,7 +62,7 @@
 		display: flex;
 		flex-direction: row;
 	}
-	.SveltableRow {
+	.SvelTableRow {
 		display: flex;
 		flex-direction: row;
 	}
