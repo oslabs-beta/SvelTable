@@ -11,6 +11,6 @@
 
 <style>
 	.SvelTableCell {
-		border: 1px solid black;
+		border: 1px solid lightgray;
 	}
 </style>

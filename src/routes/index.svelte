@@ -13,14 +13,7 @@
 		{ id: 5, name: 'adam', hobby: 'traveling', city: 'oaxaca', favnum: 36 }
 	];
 
-	const colSetting = {
-		width: 200
-	};
-
-	const rowSetting = {
-		width: 100
-	};
 </script>
 
 <h1>Welcome to SvelTable</h1>
-<SvelTable dataSet={data} {colSetting} {rowSetting} />
+<SvelTable dataSet={data}/>
