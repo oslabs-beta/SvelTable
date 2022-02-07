@@ -1,34 +1,34 @@
 <script>
-	// Note to team: Lightweight even when displaying a huge dataset due to implementation of a "virtual list" mechanism
 	import Heading from './Heading.svelte';
 	import Cell from './Cell.svelte';
 	import { columnWidth } from './store';
-	// receives dataset from user (default value of empty arr)
+	// Receives dataset from user (default value of empty arr)
 	export let dataSet = [];
-	export let rowSetting = {};
-	export let colSetting = {};
-	// getting all keys for headings
+
+	// Pulling all keys for heading names
 	const keys = Object.keys(dataSet[0]);
 
 	/* PSEUDOCODE
-  import Row Component/Column Component
-    pass required data to each component
-  receive dataset from user (array of obj)
-    array of objects
-      each object is a row
-      each key is a heading/column
+  Import Row Component/Column Component
+    Pass required data to each component
+  Receive dataset from user (array of obj)
+    Array of objects
+      Each object is a row
+      Each key is a heading/column
   */
-
+	
 	const colWidthDefault = keys.map(() => {
-		return 500;
+		return 200;
 	});
 
 	columnWidth.set(colWidthDefault);
-	// console.log($columnWidth);
-	// columnWidth = [500,500,500,500,500]
+
 	/* 
-  make settings for row and column a global state/variable
-	when features are added, those feature component will alter global settings because the table relies on the setting state it will REACT to the change
+  Make settings for row and column a global state/variable.
+
+	When features are added, those feature component will alter global settings. 
+	
+	Because the table relies on the setting state it will REACT to the change.
   */
 </script>
 
@@ -38,7 +38,7 @@
 			<Heading displayText={heading} colID={i} />
 		{/each}
 	</div>
-	<div class="DataContainer">
+	<div>
 		{#each dataSet as row, i}
 			<div class="SvelTableRow">
 				{#each Object.entries(row) as keyVal, j}
@@ -51,12 +51,10 @@
 
 <style>
 	.SvelTableContainer {
-		width: 60%;
+		width: fit-content;
 		display: flex;
 		flex-direction: column;
-		border: solid;
-		border-color: black;
-		padding: 20px;
+		border: 1px solid black;
 	}
 	.HeadingContainer {
 		display: flex;
