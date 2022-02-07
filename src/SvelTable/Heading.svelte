@@ -13,12 +13,10 @@
 				if there is, use that instead
 				
 	*/
-
-	// Monitor user's mouse movement and location; not currently being used. Referenced from: https://svelte.dev/tutorial/inline-handlers
-	let m = { y: 0 };
-	function handleMousemove(event) {
-		m.y = event.clientY;
-	}
+	let resizing = false;
+	let originalWidth = 0;
+	let originalMouseX = 0;
+	
 
 </script>
 
@@ -26,19 +24,48 @@
 	class="SvelTableHeading"
 	{colID}
 	style="min-width: {$columnMinWidth + 'px'}; width: {$columnWidth[colID] + 'px'};"
-	on:click="{(e) => {
-		$columnWidth[colID] += 1;
-	}}"
 	>
 	{displayText}
+	<div
+		class="resizer"
+		on:mousedown={(e) => {
+			e.preventDefault();
+			resizing = true;
+			originalWidth = $columnWidth[colID];
+			originalMouseX = e.pageX;
+			window.addEventListener('mousemove', (e) => {
+				if (resizing) {
+					$columnWidth[colID] = originalWidth + (e.pageX - originalMouseX);
+				}
+			});
+			window.addEventListener('mouseup', () => {
+				resizing = false;
+				window.removeEventListener('mousemove', (e) => {
+					if (resizing) {
+						$columnWidth[colID] = originalWidth + (e.pageX - originalMouseX);
+					}
+				});
+			});
+		}}
+	/>
 </div>
 
 <style>
 	.SvelTableHeading {
+		display: flex;
+		flex-direction: row;
 		border: 1px solid black;
 		font-weight: bold;
-		/* resize: horizontal; */
-		cursor: ew-resize;
 		overflow: auto;
+	}
+	.resizer {
+		margin-left: auto;
+		margin-right: 0;
+		width: 3px;
+		height: 18px;
+	}
+	.resizer:hover {
+		background-color: gray;
+		cursor: ew-resize;
 	}
 </style>
