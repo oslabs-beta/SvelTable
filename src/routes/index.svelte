@@ -9,7 +9,7 @@
 		{ id: 4, name: 'adam', hobby: 'modals', city: 'florida', favnum: 36 },
 		{ id: 5, name: 'mimi', hobby: 'traveling', city: 'oaxaca', favnum: 36 },
 		{ id: 5, name: 'brad', hobby: 'traveling', city: 'oaxaca', favnum: 36 },
-		{ id: 5, name: 'care', hobby: 'Pneumonoultramicroscopicsilicovolcanoconiosis', city: 'oaxaca', favnum: 36 },
+		{ id: 5, name: 'care', hobby: 'Pneumonoultramicroscopicsilicovolcanoconiosis-Pneumonoultramicroscopicsilicovolcanoconiosis', city: 'oaxaca', favnum: 36 },
 		{ id: 5, name: 'adam', hobby: 'traveling', city: 'oaxaca', favnum: 36 }
 	];
 
