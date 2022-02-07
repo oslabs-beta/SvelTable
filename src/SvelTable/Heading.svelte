@@ -1,7 +1,7 @@
 <script>
 	export let displayText = '';
 	export let colID = 0;
-	import { columnWidth, columnMinWidth } from './store';
+	import { columnWidth, columnMinWidth, overflowwrap } from './store';
 
 	/* Create handler for resetting 'columnWidth' at specific 'colID':
 		- colID correspond to specific column index
@@ -23,7 +23,7 @@
 <div
 	class="SvelTableHeading"
 	{colID}
-	style="min-width: {$columnMinWidth + 'px'}; width: {$columnWidth[colID] + 'px'};"
+	style="min-width: {$columnMinWidth + 'px'}; width: {$columnWidth[colID] + 'px'}; overflow-wrap: {$overflowwrap};"
 	>
 	{displayText}
 	<div
