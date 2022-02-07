@@ -1,11 +1,11 @@
 <script>
 	import Heading from './Heading.svelte';
 	import Cell from './Cell.svelte';
-	import { columnWidth } from './store';
-	// Receives dataset from user (default value of empty arr)
+	import { columnWidth, columnMinWidth } from './store';
+	import { onMount } from 'svelte';
 	export let dataSet = [];
-
-	// Pulling all keys for heading names
+	let isSortedAtoZ = false;
+	let data = [];
 	const keys = Object.keys(dataSet[0]);
 
 	/* PSEUDOCODE
@@ -16,30 +16,86 @@
       Each object is a row
       Each key is a heading/column
   */
-	
+	onMount(() => {
+		data = dataSet;
+	});
 	const colWidthDefault = keys.map(() => {
 		return 200;
 	});
 
 	columnWidth.set(colWidthDefault);
 
-	/* 
-  Make settings for row and column a global state/variable.
+	let searchWord = '';
 
-	When features are added, those feature component will alter global settings. 
-	
-	Because the table relies on the setting state it will REACT to the change.
-  */
+	function filter(e) {
+		data = dataSet.filter((elem) => {
+			for (let key in elem) {
+				if (elem[key].toString().includes(searchWord.toString().toLowerCase())) {
+					return elem;
+				}
+			}
+		});
+	}
+
+	function filterBy(e, columnName) {
+		const { value } = e.target;
+		console.log(columnName);
+		data = data.filter((elem) => elem[columnName].toLowerCase().includes(value.toLowerCase()));
+	}
+
+	function sortBy(e) {
+		console.log(e);
+		console.log(dataSet);
+
+		const { displayText, isAtoZSort } = e.detail;
+
+		isSortedAtoZ = !isAtoZSort;
+
+		if (isSortedAtoZ) {
+			data = data.sort(function (a, b) {
+				if (a[displayText] > b[displayText]) {
+					return 1;
+				}
+				if (a[displayText] < b[displayText]) {
+					return -1;
+				}
+				// a must be equal to b
+				return 0;
+			});
+		} else {
+			data = data.sort(function (a, b) {
+				if (a[displayText] < b[displayText]) {
+					return 1;
+				}
+				if (a[displayText] > b[displayText]) {
+					return -1;
+				}
+				// a must be equal to b
+				return 0;
+			});
+		}
+	}
 </script>
 
 <div class="SvelTableContainer">
+	<input type="text" placeholder="Search" bind:value={searchWord} on:input={filter} />
 	<div class="HeadingContainer">
 		{#each keys as heading, i}
-			<Heading displayText={heading} colID={i} />
+			<input
+				type="text"
+				style="width: {$columnWidth[i] - 6 + 'px'}; min-width: {$columnMinWidth - 6 + 'px'}"
+				placeholder="Filter"
+				on:input={(e) => filterBy(e, heading)}
+			/>
 		{/each}
 	</div>
-	<div>
-		{#each dataSet as row, i}
+	<div class="HeadingContainer">
+		{#each keys as heading, i}
+			<Heading on:sortBy={sortBy} displayText={heading} bind:isSortedAtoZ colID={i} />
+		{/each}
+	</div>
+	<div class="DataContainer">
+		{#each data as row, i}
 			<div class="SvelTableRow">
 				{#each Object.entries(row) as keyVal, j}
 					<Cell displayText={keyVal[1]} colID={j} rowID={i} />
