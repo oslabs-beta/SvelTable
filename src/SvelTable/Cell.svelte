@@ -5,7 +5,7 @@
 	import { columnWidth } from './store';
 </script>
 
-<div class="SvelTableCell" {colID} {rowID} style="width: {$columnWidth[colID].toString() + 'px'};">
+<div class="SvelTableCell" {colID} {rowID} style="width: {$columnWidth[colID] + 'px'};">
 	{displayText}
 </div>
 

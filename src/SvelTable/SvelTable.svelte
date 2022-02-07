@@ -2,30 +2,18 @@
 	// Note to team: Lightweight even when displaying a huge dataset due to implementation of a "virtual list" mechanism
 	import Heading from './Heading.svelte';
 	import Cell from './Cell.svelte';
-	import { columnWidth } from './store';
+	import { columnWidth, columnSettings } from './store';
 	// receives dataset from user (default value of empty arr)
 	export let dataSet = [];
-	export let rowSetting = {};
-	export let colSetting = {};
+
 	// getting all keys for headings
 	const keys = Object.keys(dataSet[0]);
 
-	/* PSEUDOCODE
-  import Row Component/Column Component
-    pass required data to each component
-  receive dataset from user (array of obj)
-    array of objects
-      each object is a row
-      each key is a heading/column
-  */
-
 	const colWidthDefault = keys.map(() => {
-		return 500;
+		return 100;
 	});
 
 	columnWidth.set(colWidthDefault);
-	// console.log($columnWidth);
-	// columnWidth = [500,500,500,500,500]
 	/* 
   make settings for row and column a global state/variable
 	when features are added, those feature component will alter global settings because the table relies on the setting state it will REACT to the change
@@ -36,6 +24,7 @@
 	<div class="HeadingContainer">
 		{#each keys as heading, i}
 			<Heading displayText={heading} colID={i} />
+			<!-- <div class="ResizeComponent" /> -->
 		{/each}
 	</div>
 	<div class="DataContainer">
@@ -51,14 +40,12 @@
 
 <style>
 	.SvelTableContainer {
-		width: 60%;
-		display: flex;
-		flex-direction: column;
 		border: solid;
 		border-color: black;
-		padding: 20px;
 	}
 	.HeadingContainer {
+		top: 0px;
+		left: 0px;
 		display: flex;
 		flex-direction: row;
 	}
@@ -66,4 +53,14 @@
 		display: flex;
 		flex-direction: row;
 	}
+	/* .ResizeComponent {
+		height: 20px;
+		width: 20px;
+		left: 100px;
+		color: black;
+		background-color: black;
+		position: absolute;
+		cursor: ew-resize;
+		pointer-events: all;
+	} */
 </style>
