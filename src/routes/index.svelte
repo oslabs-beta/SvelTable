@@ -12,15 +12,8 @@
 		{ id: 5, name: 'care', hobby: 'traveling', city: 'oaxaca', favnum: 36 },
 		{ id: 5, name: 'adam', hobby: 'traveling', city: 'oaxaca', favnum: 36 }
 	];
-<<<<<<< HEAD
-</script>
-
-<h1>Welcome to SvelTable</h1>
-<SvelTable dataSet={data} />
-=======
 
 </script>
 
 <h1>Welcome to SvelTable</h1>
 <SvelTable dataSet={data}/>
->>>>>>> 5e0c84a1b85f556ec3f225eedfc4cad3efd4f57d
