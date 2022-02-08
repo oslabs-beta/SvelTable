@@ -19,7 +19,7 @@
   */
 	onMount(() => {
 		data = dataSet;
-		for (let i = 0; i < keys.length; i += 1){
+	for (let i = 0; i < keys.length; i += 1){
 		arrowArr.push('');
 	}
 	});
