@@ -4,7 +4,9 @@
 	export let arrowArr = [];
 	export let arrow = '';
 	export let colID = 0;
-	import { columnWidth, columnMinWidth } from './store';
+
+	import { columnWidth, columnMinWidth, overflowwrap } from './store';
+
   export let isSortedAtoZ;
 	const dispatch = createEventDispatcher();
 	/* Create handler for resetting 'columnWidth' at specific 'colID':
@@ -27,7 +29,7 @@
   on:click={() => dispatch('sortBy', {displayText, isAtoZSort:isSortedAtoZ})}
 	class="SvelTableHeading"
 	{colID}
-	style="min-width: {$columnMinWidth + 'px'}; width: {$columnWidth[colID] + 'px'};"
+	style="min-width: {$columnMinWidth + 'px'}; width: {$columnWidth[colID] + 'px'}; overflow-wrap: {$overflowwrap};"
 	>
 	{displayText}
 	{arrow}

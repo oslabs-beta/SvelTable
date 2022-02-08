@@ -10,7 +10,8 @@
 		{ id: 3, name: 'brad', hobby: 'epcot', city: 'new york', favnum: 36 },
 		{ id: 4, name: 'adam', hobby: 'modals', city: 'florida', favnum: 36 },
 		{ id: 5, name: 'brad', hobby: 'traveling', city: 'oaxaca', favnum: 36 },
-		{ id: 5, name: 'care', hobby: 'traveling', city: 'oaxaca', favnum: 36 }
+		{ id: 5, name: 'adam', hobby: 'traveling', city: 'oaxaca', favnum: 36 }
+
 	];
 
 </script>
