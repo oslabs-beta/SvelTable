@@ -1,57 +1,50 @@
 <script>
-	// Note to team: Lightweight even when displaying a huge dataset due to implementation of a "virtual list" mechanism
 	import Heading from './Heading.svelte';
 	import Cell from './Cell.svelte';
-	import { columnWidth } from './store';
-import { onMount } from 'svelte';
-	// receives dataset from user (default value of empty arr)
+	import { columnWidth, columnMinWidth } from './store';
+	import { onMount } from 'svelte';
 	export let dataSet = [];
-	export let rowSetting = {};
-	export let colSetting = {};
-	let isSortedAtoZ=false;
-	let data =[];
-	// getting all keys for headings
+	let isSortedAtoZ = false;
+	let data = [];
+	let arrowArr = [];
 	const keys = Object.keys(dataSet[0]);
 
 	/* PSEUDOCODE
-  import Row Component/Column Component
-    pass required data to each component
-  receive dataset from user (array of obj)
-    array of objects
-      each object is a row
-      each key is a heading/column
+  Import Row Component/Column Component
+    Pass required data to each component
+  Receive dataset from user (array of obj)
+    Array of objects
+      Each object is a row
+      Each key is a heading/column
   */
-
-
-  onMount(()=>{
-	data=dataSet;
-	// for (let i=0; i < data.length; i++){
-	// 	arrow.push('');
-	// }
-  })
-
-	const colWidthDefault = keys.map(() => {
-		return 500;
+	onMount(() => {
+		data = dataSet;
+		for (let i = 0; i < keys.length; i += 1){
+		arrowArr.push('');
+	}
 	});
-
+	const colWidthDefault = keys.map(() => {
+		return 200;
+	});
 	columnWidth.set(colWidthDefault);
-
-	let searchWord = "";
-	 function filter(e){
-		 console.log(e);
-		//  if(e.detail===searchWord) alert("found adam")
-		// dataSet = dataSet.filter(elem => elem[e.detail] === searchWord);
-		data = dataSet.filter(elem => elem.name.toLowerCase().includes(searchWord.toLowerCase()));
-
-		console.log(dataSet);
-
-	 }
-	let arrowArr = ['','','','',''];
-
+	let searchWord = '';
+	function filter(e) {
+		data = dataSet.filter((elem) => {
+			for (let key in elem) {
+				if (elem[key].toString().includes(searchWord.toString().toLowerCase())) {
+					return elem;
+				}
+			}
+		});
+	}
+	function filterBy(e, columnName) {
+		const { value } = e.target;
+		console.log(columnName);
+		data = data.filter((elem) => elem[columnName].toLowerCase().includes(value.toLowerCase()));
+	}
 	function sortBy(e, i) {
 		console.log(e);
 		console.log(dataSet);
-
 		let index = i;
 		
 		const {displayText, isAtoZSort}= e.detail
@@ -81,16 +74,20 @@ import { onMount } from 'svelte';
 		arrowArr[index] = '🔼';
 	}
 	}
-	// console.log($columnWidth);
-	// columnWidth = [500,500,500,500,500]
-	/* 
-  make settings for row and column a global state/variable
-    when features are added, those feature component will alter global settings because the table relies on the setting state it will REACT to the change
-  */
 </script>
 
 <div class="SvelTableContainer">
-	<input type="text" bind:value={searchWord} on:input={filter}/>
+	<input type="text" placeholder="Search" bind:value={searchWord} on:input={filter} />
+	<div class="HeadingContainer">
+		{#each keys as heading, i}
+			<input
+				type="text"
+				style="width: {$columnWidth[i] - 6 + 'px'}; min-width: {$columnMinWidth - 6 + 'px'}"
+				placeholder="Filter"
+				on:input={(e) => filterBy(e, heading)}
+			/>
+		{/each}
+	</div>
 	<div class="HeadingContainer">
 		{#each keys as heading, i}
 			<Heading on:sortBy={(e)=>sortBy(e,i)} displayText={heading} arrow={arrowArr[i]} bind:isSortedAtoZ colID={i} />
@@ -109,12 +106,10 @@ import { onMount } from 'svelte';
 
 <style>
 	.SvelTableContainer {
-		width: 60%;
+		width: fit-content;
 		display: flex;
 		flex-direction: column;
-		border: solid;
-		border-color: black;
-		padding: 20px;
+		border: 1px solid black;
 	}
 	.HeadingContainer {
 		display: flex;
