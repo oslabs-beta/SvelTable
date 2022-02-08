@@ -1,9 +1,12 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
+
 	export let displayText = '';
 	export let colID = 0;
 
 	import { columnWidth, columnMinWidth } from './store';
-
+  export let isSortedAtoZ;
+	const dispatch = createEventDispatcher();
 	/* Create handler for resetting 'columnWidth' at specific 'colID':
 		- colID correspond to specific column index
 		- handleColResize will access columnWidth[colID] and increase OR decrease that value
@@ -20,6 +23,7 @@
 </script>
 
 <div
+  on:click={() => dispatch('sortBy', {displayText, isAtoZSort:isSortedAtoZ})}
 	class="SvelTableHeading"
 	{colID}
 	style="min-width: {$columnMinWidth + 'px'}; width: {$columnWidth[colID] + 'px'};"
