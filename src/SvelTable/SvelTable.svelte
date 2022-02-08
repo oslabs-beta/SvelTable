@@ -6,6 +6,7 @@
 	export let dataSet = [];
 	let isSortedAtoZ = false;
 	let data = [];
+	let arrowArr = [];
 	const keys = Object.keys(dataSet[0]);
 
 	/* PSEUDOCODE
@@ -18,15 +19,15 @@
   */
 	onMount(() => {
 		data = dataSet;
+	for (let i = 0; i < keys.length; i += 1){
+		arrowArr.push('');
+	}
 	});
 	const colWidthDefault = keys.map(() => {
 		return 200;
 	});
-
 	columnWidth.set(colWidthDefault);
-
 	let searchWord = '';
-
 	function filter(e) {
 		data = dataSet.filter((elem) => {
 			for (let key in elem) {
@@ -36,44 +37,42 @@
 			}
 		});
 	}
-
 	function filterBy(e, columnName) {
 		const { value } = e.target;
 		console.log(columnName);
 		data = data.filter((elem) => elem[columnName].toLowerCase().includes(value.toLowerCase()));
 	}
-
-	function sortBy(e) {
+	function sortBy(e, i) {
 		console.log(e);
 		console.log(dataSet);
-
-		const { displayText, isAtoZSort } = e.detail;
-
-		isSortedAtoZ = !isAtoZSort;
-
-		if (isSortedAtoZ) {
-			data = data.sort(function (a, b) {
-				if (a[displayText] > b[displayText]) {
-					return 1;
-				}
-				if (a[displayText] < b[displayText]) {
-					return -1;
-				}
-				// a must be equal to b
-				return 0;
-			});
-		} else {
-			data = data.sort(function (a, b) {
-				if (a[displayText] < b[displayText]) {
-					return 1;
-				}
-				if (a[displayText] > b[displayText]) {
-					return -1;
-				}
-				// a must be equal to b
-				return 0;
-			});
-		}
+		let index = i;
+		
+		const {displayText, isAtoZSort}= e.detail
+		isSortedAtoZ= !isAtoZSort;
+		
+       if(isSortedAtoZ){ 
+		data = data.sort(function (a, b) {
+			if (a[displayText] > b[displayText]) {
+				return 1;
+			}
+			if (a[displayText] < b[displayText]) {
+				return -1;
+			}
+			return 0;
+		});
+		arrowArr[index] = '🔽';
+	} else{
+		data = data.sort(function (a, b) {
+			if (a[displayText] < b[displayText]) {
+				return 1;
+			}
+			if (a[displayText] > b[displayText]) {
+				return -1;
+			}
+			return 0;
+		});
+		arrowArr[index] = '🔼';
+	}
 	}
 </script>
 
@@ -91,7 +90,7 @@
 	</div>
 	<div class="HeadingContainer">
 		{#each keys as heading, i}
-			<Heading on:sortBy={sortBy} displayText={heading} bind:isSortedAtoZ colID={i} />
+			<Heading on:sortBy={(e)=>sortBy(e,i)} displayText={heading} arrow={arrowArr[i]} bind:isSortedAtoZ colID={i} />
 		{/each}
 	</div>
 	<div class="DataContainer">

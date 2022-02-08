@@ -1,9 +1,9 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
-
 	export let displayText = '';
+	export let arrowArr = [];
+	export let arrow = '';
 	export let colID = 0;
-
 	import { columnWidth, columnMinWidth } from './store';
   export let isSortedAtoZ;
 	const dispatch = createEventDispatcher();
@@ -20,7 +20,6 @@
 	let resizing = false;
 	let originalWidth = 0;
 	let originalMouseX = 0;
-	
 
 </script>
 
@@ -31,6 +30,7 @@
 	style="min-width: {$columnMinWidth + 'px'}; width: {$columnWidth[colID] + 'px'};"
 	>
 	{displayText}
+	{arrow}
 	<div
 		class="resizer"
 		on:mousedown={(e) => {
