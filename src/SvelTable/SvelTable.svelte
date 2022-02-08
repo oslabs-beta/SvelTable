@@ -7,6 +7,7 @@
 	let isSortedAtoZ = false;
 	let data = [];
 	let arrowArr = [];
+	let searchWord = '';
 	const keys = Object.keys(dataSet[0]);
 
 	/* PSEUDOCODE
@@ -19,15 +20,22 @@
   */
 	onMount(() => {
 		data = dataSet;
-	for (let i = 0; i < keys.length; i += 1){
-		arrowArr.push('');
-	}
+		for (let i = 0; i < keys.length; i += 1) {
+			arrowArr.push('');
+		}
 	});
+
 	const colWidthDefault = keys.map(() => {
 		return 200;
 	});
+
 	columnWidth.set(colWidthDefault);
-	let searchWord = '';
+
+	/** filter's purpose 
+	 * @param e = event
+	 * @returns elem = 
+	 */
+
 	function filter(e) {
 		data = dataSet.filter((elem) => {
 			for (let key in elem) {
@@ -37,42 +45,51 @@
 			}
 		});
 	}
+
+	/** filterBy's purpose
+	 * @param e = event
+	 * @param columnName
+	 */
+
 	function filterBy(e, columnName) {
 		const { value } = e.target;
 		console.log(columnName);
-		data = data.filter((elem) => elem[columnName].toLowerCase().includes(value.toLowerCase()));
+		data = data.filter((elem) => {
+		console.log('elem name', elem[columnName])
+		return elem[columnName].toString().toLowerCase().includes(value.toLowerCase())});
 	}
+
 	function sortBy(e, i) {
 		console.log(e);
 		console.log(dataSet);
 		let index = i;
-		
-		const {displayText, isAtoZSort}= e.detail
-		isSortedAtoZ= !isAtoZSort;
-		
-       if(isSortedAtoZ){ 
-		data = data.sort(function (a, b) {
-			if (a[displayText] > b[displayText]) {
-				return 1;
-			}
-			if (a[displayText] < b[displayText]) {
-				return -1;
-			}
-			return 0;
-		});
-		arrowArr[index] = '🔽';
-	} else{
-		data = data.sort(function (a, b) {
-			if (a[displayText] < b[displayText]) {
-				return 1;
-			}
-			if (a[displayText] > b[displayText]) {
-				return -1;
-			}
-			return 0;
-		});
-		arrowArr[index] = '🔼';
-	}
+
+		const { displayText, isAtoZSort } = e.detail;
+		isSortedAtoZ = !isAtoZSort;
+
+		if (isSortedAtoZ) {
+			data = data.sort(function (a, b) {
+				if (a[displayText] > b[displayText]) {
+					return 1;
+				}
+				if (a[displayText] < b[displayText]) {
+					return -1;
+				}
+				return 0;
+			});
+			arrowArr[index] = '🔽';
+		} else {
+			data = data.sort(function (a, b) {
+				if (a[displayText] < b[displayText]) {
+					return 1;
+				}
+				if (a[displayText] > b[displayText]) {
+					return -1;
+				}
+				return 0;
+			});
+			arrowArr[index] = '🔼';
+		}
 	}
 </script>
 
@@ -90,7 +107,13 @@
 	</div>
 	<div class="HeadingContainer">
 		{#each keys as heading, i}
-			<Heading on:sortBy={(e)=>sortBy(e,i)} displayText={heading} arrow={arrowArr[i]} bind:isSortedAtoZ colID={i} />
+			<Heading
+				on:sortBy={(e) => sortBy(e, i)}
+				displayText={heading}
+				arrow={arrowArr[i]}
+				bind:isSortedAtoZ
+				colID={i}
+			/>
 		{/each}
 	</div>
 	<div class="DataContainer">

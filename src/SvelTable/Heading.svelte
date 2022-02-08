@@ -1,7 +1,6 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 	export let displayText = '';
-	export let arrowArr = [];
 	export let arrow = '';
 	export let colID = 0;
 
