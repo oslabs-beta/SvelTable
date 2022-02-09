@@ -26,7 +26,7 @@
 	});
 
 	const colWidthDefault = keys.map(() => {
-		return 200;
+		return 100;
 	});
 
 	columnWidth.set(colWidthDefault);
@@ -53,9 +53,7 @@
 
 	function filterBy(e, columnName) {
 		const { value } = e.target;
-		console.log(columnName);
 		data = data.filter((elem) => {
-		console.log('elem name', elem[columnName])
 		return elem[columnName].toString().toLowerCase().includes(value.toLowerCase())});
 	}
 
