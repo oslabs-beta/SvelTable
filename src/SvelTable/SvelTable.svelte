@@ -18,7 +18,8 @@
       Each object is a row
       Each key is a heading/column
   */
-	onMount(() => {
+	onMount(() => {	
+		console.log(dataSet);
 		data = dataSet;
 		for (let i = 0; i < keys.length; i += 1) {
 			arrowArr.push('');
