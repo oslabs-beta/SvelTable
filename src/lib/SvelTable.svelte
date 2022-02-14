@@ -3,7 +3,7 @@
 	import Cell from './Cell.svelte';
 	import { columnWidth, columnMinWidth } from './store';
 	import { onMount } from 'svelte';
-	export let dataSet = [];
+	export let dataSet = [{ loading: 'loading' }];
 	let isSortedAtoZ = false;
 	let data = [];
 	let arrowArr = [];
@@ -31,9 +31,9 @@
 
 	columnWidth.set(colWidthDefault);
 
-	/** filter's purpose 
+	/** filter's purpose
 	 * @param e = event
-	 * @returns elem = 
+	 * @returns elem =
 	 */
 
 	function filter(e) {
@@ -54,7 +54,8 @@
 	function filterBy(e, columnName) {
 		const { value } = e.target;
 		data = data.filter((elem) => {
-		return elem[columnName].toString().toLowerCase().includes(value.toLowerCase())});
+			return elem[columnName].toString().toLowerCase().includes(value.toLowerCase());
+		});
 	}
 
 	function sortBy(e, i) {

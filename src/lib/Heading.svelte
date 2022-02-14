@@ -58,6 +58,8 @@
 
 <style>
 	.SvelTableHeading {
+		background-color: white;
+		color: black;
 		display: flex;
 		flex-direction: row;
 		border: 1px solid black;

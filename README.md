@@ -7,7 +7,7 @@ SvelTable is a feature rich, data table component library for Svelte.
 Use the package manager [npm](https://docs.npmjs.com/) to install Sveltable.
 
 ```bash
-npm install sveltable
+npm install sveltables
 ```
 
 ## SetUp
