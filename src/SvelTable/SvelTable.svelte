@@ -53,6 +53,7 @@
 	 */
 
 	function filterBy(e, columnName) {
+		filter()
 		const { value } = e.target;
 		data = data.filter((elem) => {
 		return elem[columnName].toString().toLowerCase().includes(value.toLowerCase())});
