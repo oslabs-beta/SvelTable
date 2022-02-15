@@ -1,9 +1,10 @@
 <script>
+	import VirtualList from '@sveltejs/svelte-virtual-list';
+	import CellRow from './CellRow.svelte';
 	import Heading from './Heading.svelte';
-	import Cell from './Cell.svelte';
 	import { columnWidth, columnMinWidth } from './store';
 	import { onMount } from 'svelte';
-	export let dataSet = [];
+	export let dataSet = [{ loading: 'loading' }];
 	let isSortedAtoZ = false;
 	let data = [];
 	let arrowArr = [];
@@ -32,9 +33,9 @@
 
 	columnWidth.set(colWidthDefault);
 
-	/** filter's purpose 
+	/** filter's purpose
 	 * @param e = event
-	 * @returns elem = 
+	 * @returns elem =
 	 */
 
 	function filter(e) {
@@ -55,7 +56,8 @@
 	function filterBy(e, columnName) {
 		const { value } = e.target;
 		data = data.filter((elem) => {
-		return elem[columnName].toString().toLowerCase().includes(value.toLowerCase())});
+			return elem[columnName].toString().toLowerCase().includes(value.toLowerCase());
+		});
 	}
 
 	function sortBy(e, i) {
@@ -116,13 +118,9 @@
 		{/each}
 	</div>
 	<div class="DataContainer">
-		{#each data as row, i}
-			<div class="SvelTableRow">
-				{#each Object.entries(row) as keyVal, j}
-					<Cell displayText={keyVal[1]} colID={j} rowID={i} />
-				{/each}
-			</div>
-		{/each}
+		<VirtualList height="600px" items={data} let:item>
+			<CellRow rowData={item} />
+		</VirtualList>
 	</div>
 </div>
 
@@ -134,10 +132,8 @@
 		border: 1px solid black;
 	}
 	.HeadingContainer {
-		display: flex;
-		flex-direction: row;
-	}
-	.SvelTableRow {
+		top: 0px;
+		left: 0px;
 		display: flex;
 		flex-direction: row;
 	}
