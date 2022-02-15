@@ -19,7 +19,6 @@
       Each key is a heading/column
   */
 	onMount(() => {	
-		console.log(dataSet);
 		data = dataSet;
 		for (let i = 0; i < keys.length; i += 1) {
 			arrowArr.push('');
@@ -33,11 +32,11 @@
 	columnWidth.set(colWidthDefault);
 
 	/** filter's purpose 
-	 * @param e = event
+	 * @param event
 	 * @returns elem = 
 	 */
 
-	function search(e) {
+	function search(event) {
 		data = dataSet.filter((elem) => {
 			for (let key in elem) {
 				if (elem[key].toString().includes(searchWord.toString().toLowerCase())) {
@@ -48,17 +47,16 @@
 	}
 
 	/** filterBy's purpose
-	 * @param e = event
+	 * @param event
 	 * @param columnName
 	 */
 
-	function filterBy(e, columnName) {
-		search()
-		const { value } = e.target;
+	function filterBy(event, columnName) {
+		search()//invoking search to refresh data array if the input is changed or deleted.
+		const { value } = event.target;
 		data = data.filter((elem) => {
-		return elem[columnName].toString().toLowerCase().includes(value.toLowerCase())});
-		data = data;
-	}
+		return elem[columnName].toString().toLowerCase().includes(value.toLowerCase())});//checks for the value on the object's passed in columnName key.
+	};
 
 	function sortBy(e, i) {
 		// console.log(e);
