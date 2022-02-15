@@ -37,7 +37,7 @@
 	 * @returns elem = 
 	 */
 
-	function filter(e) {
+	function search(e) {
 		data = dataSet.filter((elem) => {
 			for (let key in elem) {
 				if (elem[key].toString().includes(searchWord.toString().toLowerCase())) {
@@ -53,7 +53,7 @@
 	 */
 
 	function filterBy(e, columnName) {
-		filter()
+		search()
 		const { value } = e.target;
 		data = data.filter((elem) => {
 		return elem[columnName].toString().toLowerCase().includes(value.toLowerCase())});
@@ -95,7 +95,7 @@
 </script>
 
 <div class="SvelTableContainer">
-	<input type="text" placeholder="Search" bind:value={searchWord} on:input={filter} />
+	<input type="text" placeholder="Search" bind:value={searchWord} on:input={search} />
 	<div class="HeadingContainer">
 		{#each keys as columnName, i}
 			<input
