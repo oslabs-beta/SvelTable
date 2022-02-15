@@ -36,6 +36,7 @@
 	"type": "module",
 	"dependencies": {
 		"@sveltejs/adapter-node": "^1.0.0-next.67",
+		"@sveltejs/svelte-virtual-list": "^3.0.1",
 		"namor": "^1.1.2",
 		"svelte2tsx": "^0.5.3"
 	}

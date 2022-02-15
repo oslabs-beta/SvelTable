@@ -1,6 +1,7 @@
 <script>
+	import VirtualList from '@sveltejs/svelte-virtual-list';
+	import CellRow from './CellRow.svelte';
 	import Heading from './Heading.svelte';
-	import Cell from './Cell.svelte';
 	import { columnWidth, columnMinWidth } from './store';
 	import { onMount } from 'svelte';
 	export let dataSet = [{ loading: 'loading' }];
@@ -116,13 +117,9 @@
 		{/each}
 	</div>
 	<div class="DataContainer">
-		{#each data as row, i}
-			<div class="SvelTableRow">
-				{#each Object.entries(row) as keyVal, j}
-					<Cell displayText={keyVal[1]} colID={j} rowID={i} />
-				{/each}
-			</div>
-		{/each}
+		<VirtualList height="600px" items={data} let:item>
+			<CellRow rowData={item} />
+		</VirtualList>
 	</div>
 </div>
 
@@ -136,10 +133,6 @@
 	.HeadingContainer {
 		top: 0px;
 		left: 0px;
-		display: flex;
-		flex-direction: row;
-	}
-	.SvelTableRow {
 		display: flex;
 		flex-direction: row;
 	}
