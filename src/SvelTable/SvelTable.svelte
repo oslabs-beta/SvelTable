@@ -28,6 +28,7 @@
 	});
 	columnWidth.set(colWidthDefault);
 	let searchWord = '';
+	
 	function filter(e) {
 		data = dataSet.filter((elem) => {
 			for (let key in elem) {
@@ -37,14 +38,15 @@
 			}
 		});
 	}
-	function filterBy(e, columnName) {
-		const { value } = e.target;
-		console.log(columnName);
-		data = data.filter((elem) => elem[columnName].toLowerCase().includes(value.toLowerCase()));
+	function filterBy(event, columnName) {
+		const { value } = event.target;
+		//console.log(columnName);
+		data = data.filter((element) => element[columnName].toLowerCase().includes(value.toLowerCase()));
 	}
+
 	function sortBy(e, i) {
-		console.log(e);
-		console.log(dataSet);
+		// console.log(e);
+		// console.log(dataSet);
 		let index = i;
 		
 		const {displayText, isAtoZSort}= e.detail
