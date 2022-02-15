@@ -3,11 +3,13 @@
 	import Cell from './Cell.svelte';
 	import { columnWidth, columnMinWidth } from './store';
 	import { onMount } from 'svelte';
+	import { dataDisplay } from './store';
+	import { isSorted } from './store';
 	export let dataSet = [];
 	let isSortedAtoZ = false;
-	let data = [];
+	//let data = [];
 	let arrowArr = [];
-	let searchWord = '';
+	let searchValue = '';
 	const keys = Object.keys(dataSet[0]);
 
 	/* PSEUDOCODE
@@ -19,7 +21,7 @@
       Each key is a heading/column
   */
 	onMount(() => {	
-		data = dataSet;
+		dataDisplay.set(dataSet);//setting the dataDisplay state to the passed in data array.
 		for (let i = 0; i < keys.length; i += 1) {
 			arrowArr.push('');
 		}
@@ -37,13 +39,14 @@
 	 */
 
 	function search(event) {
-		data = dataSet.filter((elem) => {
+		const searchedData = dataSet.filter((elem) => {
 			for (let key in elem) {
-				if (elem[key].toString().includes(searchWord.toString().toLowerCase())) {
+				if (elem[key].toString().includes(searchValue.toString().toLowerCase())) {
 					return elem;
 				}
 			}
 		});
+		dataDisplay.set(searchedData)
 	}
 
 	/** filterBy's purpose
@@ -54,46 +57,41 @@
 	function filterBy(event, columnName) {
 		search()//invoking search to refresh data array if the input is changed or deleted.
 		const { value } = event.target;
-		data = data.filter((elem) => {
-		return elem[columnName].toString().toLowerCase().includes(value.toLowerCase())});//checks for the value on the object's passed in columnName key.
+		const filteredData = $dataDisplay.filter((elem) => {
+			return elem[columnName].toString().toLowerCase().includes(value.toLowerCase())});//checks for the value on the object's passed in columnName key.
+		dataDisplay.set(filteredData)
 	};
 
-	function sortBy(e, i) {
-		// console.log(e);
-		// console.log(dataSet);
+	function sortBy(event, i) {
 		let index = i;
-
-		const { displayText, isAtoZSort } = e.detail;
-		isSortedAtoZ = !isAtoZSort;
-
-		if (isSortedAtoZ) {
-			data = data.sort(function (a, b) {
-				if (a[displayText] > b[displayText]) {
+		const sortedData = $dataDisplay
+		const { displayValue, isAtoZSort } = event.detail;1
+		
+		if(!$isSorted[displayValue]){
+			sortedData.sort(function (a, b) {
+				if(typeof a[displayValue] === 'number') { return a[displayValue] - b[displayValue] }
+				const aValue = a[displayValue].toLowerCase();
+				const bValue = b[displayValue].toLowerCase();
+				
+				if (aValue > bValue) {
+					arrowArr[index] = '🔼';
 					return 1;
 				}
-				if (a[displayText] < b[displayText]) {
+				if (aValue < bValue) {
 					return -1;
 				}
 				return 0;
 			});
-			arrowArr[index] = '🔽';
 		} else {
-			data = data.sort(function (a, b) {
-				if (a[displayText] < b[displayText]) {
-					return 1;
-				}
-				if (a[displayText] > b[displayText]) {
-					return -1;
-				}
-				return 0;
-			});
-			arrowArr[index] = '🔼';
-		}
+			sortedData.reverse()
+			arrowArr[index] = '🔽';
+			};
+		dataDisplay.set(sortedData)
 	}
 </script>
 
 <div class="SvelTableContainer">
-	<input type="text" placeholder="Search" bind:value={searchWord} on:input={search} />
+	<input type="text" placeholder="Search" bind:value={searchValue} on:input={search} />
 	<div class="HeadingContainer">
 		{#each keys as columnName, i}
 			<input
@@ -108,7 +106,7 @@
 		{#each keys as heading, i}
 			<Heading
 				on:sortBy={(e) => sortBy(e, i)}
-				displayText={heading}
+				displayValue={heading}
 				arrow={arrowArr[i]}
 				bind:isSortedAtoZ
 				colID={i}
@@ -116,10 +114,10 @@
 		{/each}
 	</div>
 	<div class="DataContainer">
-		{#each data as row, i}
+		{#each $dataDisplay as row, i}
 			<div class="SvelTableRow">
 				{#each Object.entries(row) as keyVal, j}
-					<Cell displayText={keyVal[1]} colID={j} rowID={i} />
+					<Cell displayValue={keyVal[1]} colID={j} rowID={i} />
 				{/each}
 			</div>
 		{/each}

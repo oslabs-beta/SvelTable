@@ -1,6 +1,6 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
-	export let displayText = '';
+	export let displayValue = '';
 	export let arrow = '';
 	export let colID = 0;
 
@@ -25,12 +25,12 @@
 </script>
 
 <div
-  on:click={() => dispatch('sortBy', {displayText, isAtoZSort:isSortedAtoZ})}
+  on:click={() => dispatch('sortBy', {displayValue, isAtoZSort:isSortedAtoZ})}
 	class="SvelTableHeading"
 	{colID}
 	style="min-width: {$columnMinWidth + 'px'}; width: {$columnWidth[colID] + 'px'}; overflow-wrap: {$overflowwrap};"
 	>
-	{displayText}
+	{displayValue}
 	{arrow}
 	<div
 		class="resizer"
