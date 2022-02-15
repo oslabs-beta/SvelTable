@@ -2,17 +2,27 @@
 
 SvelTable is a feature rich, data table component library for Svelte. 
 
-## Installation
-
-Use the package manager [npm](https://docs.npmjs.com/) to install Sveltable.
-
+## SetUp
+1.) Use the package manager [npm](https://docs.npmjs.com/) to install Sveltable.
 ```bash
 npm install sveltable
 ```
+2.) Import sveltables to your svelte file.
+```bash
+import SvelTable from 'sveltables';
+```
 
-## SetUp
-
-Look at all these fancy pictures walking you through the set up of SvelTable.  You are welcome.
+3.) Declare a data array inside script tag to import data to.
+```bash
+<script>
+  import SvelTable from 'sveltables';
+  let data = [];
+</script>
+```
+4.) Use dataSet method to render a SvelTable with your data.
+```bash
+<SvelTable dataSet={data} />
+```
 
 ## Contributing
 Want to do some svixing for us?  See how [here!](https://github.com/oslabs-beta/SvelTable/blob/main/Contributing.md)
