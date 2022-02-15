@@ -20,7 +20,7 @@
 <SvelTable dataSet={data}/> -->
 <script>
 	import SvelTable from '../SvelTable/SvelTable.svelte';
-	import namor from  'namor';
+	import namor from 'namor';
 	//adding more object will add rows
 	//adding more key/value pair will add columns
 
@@ -36,7 +36,7 @@
 		};
 	}
 
-	let userDefinedNum = 500;
+	let userDefinedNum = 100;
 
 	let data = [];
 
