@@ -56,6 +56,7 @@
 		const { value } = e.target;
 		data = data.filter((elem) => {
 		return elem[columnName].toString().toLowerCase().includes(value.toLowerCase())});
+		data = data;
 	}
 
 	function sortBy(e, i) {
@@ -95,12 +96,12 @@
 <div class="SvelTableContainer">
 	<input type="text" placeholder="Search" bind:value={searchWord} on:input={filter} />
 	<div class="HeadingContainer">
-		{#each keys as heading, i}
+		{#each keys as columnName, i}
 			<input
 				type="text"
 				style="width: {$columnWidth[i] - 6 + 'px'}; min-width: {$columnMinWidth - 6 + 'px'}"
 				placeholder="Filter"
-				on:input={(e) => filterBy(e, heading)}
+				on:input={(e) => filterBy(e, columnName)}
 			/>
 		{/each}
 	</div>
