@@ -57,7 +57,6 @@
 			}
 		});
 		dataDisplay.set(searchedData[searchValue]);
-		console.log($dataDisplay)
 		};
 	}
 
