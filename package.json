@@ -1,6 +1,11 @@
 {
 	"name": "sveltables",
-	"version": "0.0.1",
+	"version": "0.1.6",
+	"exports": {
+		"./package.json": "./package.json",
+		"./SvelTable.svelte": "./SvelTable.svelte",
+		".": "./SvelTable.svelte"
+	},
 	"scripts": {
 		"dev": "svelte-kit dev",
 		"build": "svelte-kit build",
@@ -19,18 +24,20 @@
 		"eslint": "^7.32.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^3.2.1",
+		"namor": "^1.1.2",
 		"prettier": "^2.4.1",
 		"prettier-plugin-svelte": "^2.4.0",
 		"svelte": "^3.44.0",
 		"svelte-check": "^2.2.6",
 		"svelte-preprocess": "^4.9.4",
 		"tslib": "^2.3.1",
-		"typescript": "^4.4.3",
-		"namor": "^1.1.2"
+		"typescript": "^4.4.3"
 	},
 	"type": "module",
 	"dependencies": {
 		"@sveltejs/adapter-node": "^1.0.0-next.67",
-		"namor": "^1.1.2"
+		"@sveltejs/svelte-virtual-list": "^3.0.1",
+		"namor": "^1.1.2",
+		"svelte2tsx": "^0.5.3"
 	}
 }

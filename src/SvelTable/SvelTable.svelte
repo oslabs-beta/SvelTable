@@ -1,6 +1,7 @@
 <script>
+	import VirtualList from '@sveltejs/svelte-virtual-list';
+	import CellRow from './CellRow.svelte';
 	import Heading from './Heading.svelte';
-	import Cell from './Cell.svelte';
 	import { columnWidth, columnMinWidth } from './store';
 	import { onMount } from 'svelte';
 	import { dataDisplay } from './store';
@@ -94,17 +95,17 @@
 			arrowArr[a] = '';
 		}
 		const sortedData = $dataDisplay; //grabs the current display data from the store and stores it in a new array
-		const { displayValue, isAtoZSort } = event.detail; //grabs the passed up display value from the child component and destructures
-		if (!$isSorted[displayValue]) {//if the isSorted object doesn't have the display value as a key execute sort funtionality
-			obj[displayValue] = { sortBool: true, count: 1 };
+		const { displayText, isAtoZSort } = event.detail; //grabs the passed up display value from the child component and destructures
+		if (!$isSorted[displayText]) {//if the isSorted object doesn't have the display value as a key execute sort funtionality
+			obj[displayText] = { sortBool: true, count: 1 };
 			isSorted.set(obj); //setting the display value as a key on the isSorted object and giving it a count
 			sortedData.sort(function (a, b) {
-				if (typeof a[displayValue] === 'number') {//this will sort if the display value is a number
+				if (typeof a[displayText] === 'number') {//this will sort if the display value is a number
 					arrowArr[index] = '🔼';
-					return a[displayValue] - b[displayValue];
+					return a[displayText] - b[displayText];
 				} 
-				const aValue = a[displayValue].toLowerCase(); //assigning the passed in arguments as variables and accounting for different letterrcases
-				const bValue = b[displayValue].toLowerCase();
+				const aValue = a[displayText].toLowerCase(); //assigning the passed in arguments as variables and accounting for different letterrcases
+				const bValue = b[displayText].toLowerCase();
 				if (aValue > bValue) {//sort functionality if the display value is a string
 					arrowArr[index] = '🔼';
 					return 1;
@@ -115,10 +116,10 @@
 				return 0;
 			});
 			dataDisplay.set(sortedData); //setting the state of our display data to the sortedData array
-		} else if ($isSorted[displayValue].count === 1) {//if the display value exists as a key on the isSorted object and the count is 1
+		} else if ($isSorted[displayText].count === 1) {//if the display value exists as a key on the isSorted object and the count is 1
 			sortedData.reverse(); //instead of sorting the array in backwords order we are reversing the array
 			arrowArr[index] = '🔽';
-			obj[displayValue] = { sortBool: true, count: 2 }; //incrementing count. Is there a better way to do this?
+			obj[displayText] = { sortBool: true, count: 2 }; //incrementing count. Is there a better way to do this?
 			isSorted.set(obj);
 			dataDisplay.set(sortedData); //setting the state of our display data to the sortedData array
 		} else {//if the above conditionals are not met then this is the third time the sort was clicked
@@ -146,7 +147,7 @@
 		{#each keys as heading, i}
 			<Heading
 				on:sortBy={(e) => sortBy(e, i)}
-				displayValue={heading}
+				displayText={heading}
 				arrow={arrowArr[i]}
 				bind:isSortedAtoZ
 				colID={i}
@@ -154,13 +155,9 @@
 		{/each}
 	</div>
 	<div class="DataContainer">
-		{#each $dataDisplay as row, i}
-			<div class="SvelTableRow">
-				{#each Object.entries(row) as keyVal, j}
-					<Cell displayValue={keyVal[1]} colID={j} rowID={i} />
-				{/each}
-			</div>
-		{/each}
+		<VirtualList height="600px" items={$dataDisplay} let:item>
+			<CellRow rowData={item} />
+		</VirtualList>
 	</div>
 </div>
 
@@ -172,10 +169,8 @@
 		border: 1px solid black;
 	}
 	.HeadingContainer {
-		display: flex;
-		flex-direction: row;
-	}
-	.SvelTableRow {
+		top: 0px;
+		left: 0px;
 		display: flex;
 		flex-direction: row;
 	}

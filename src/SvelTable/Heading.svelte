@@ -1,12 +1,12 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
-	export let displayValue = '';
+	export let displayText = '';
 	export let arrow = '';
 	export let colID = 0;
 
 	import { columnWidth, columnMinWidth, overflowwrap } from './store';
 
-  export let isSortedAtoZ;
+	export let isSortedAtoZ;
 	const dispatch = createEventDispatcher();
 	/* Create handler for resetting 'columnWidth' at specific 'colID':
 		- colID correspond to specific column index
@@ -21,16 +21,16 @@
 	let resizing = false;
 	let originalWidth = 0;
 	let originalMouseX = 0;
-
 </script>
 
 <div
-  on:click={() => dispatch('sortBy', {displayValue, isAtoZSort:isSortedAtoZ})}
+	on:click={() => dispatch('sortBy', { displayText, isAtoZSort: isSortedAtoZ })}
 	class="SvelTableHeading"
 	{colID}
-	style="min-width: {$columnMinWidth + 'px'}; width: {$columnWidth[colID] + 'px'}; overflow-wrap: {$overflowwrap};"
-	>
-	{displayValue}
+	style="min-width: {$columnMinWidth + 'px'}; width: {$columnWidth[colID] +
+		'px'}; overflow-wrap: {$overflowwrap};"
+>
+	{displayText}
 	{arrow}
 	<div
 		class="resizer"
@@ -58,6 +58,8 @@
 
 <style>
 	.SvelTableHeading {
+		background-color: white;
+		color: black;
 		display: flex;
 		flex-direction: row;
 		border: 1px solid black;
