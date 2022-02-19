@@ -1,6 +1,6 @@
 
 <script>
-	import SvelTable from '../SvelTable/SvelTable.svelte';
+	import SvelTable from '../lib/SvelTable.svelte';
 	import namor from 'namor';
 	//adding more object will add rows
 	//adding more key/value pair will add columns
