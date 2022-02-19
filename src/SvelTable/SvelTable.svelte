@@ -9,7 +9,7 @@
 	export let dataSet = [];
 	let currentData = [];
 	let searchedData = {};
-	let filteredData = {};
+	//let filteredData = {};
 	let isSortedAtoZ = false;
 	let arrowArr = [];
 	let searchValue = '';
@@ -57,7 +57,6 @@
 			}
 		});
 		dataDisplay.set(searchedData[searchValue]);
-		console.log($dataDisplay)
 		};
 	}
 
@@ -68,24 +67,17 @@
 
 	function filterBy(event, columnName) {
 		search();
-		let output = []
 		const { value } = event.target;
-		if (filteredData[value] || filteredData[value] === 0){
-			output = [...output, ...filteredData[value]]
-		} else {
 		filterValues[columnName] = value;
-		filteredData[value] = $dataDisplay.filter((elem) => {
+		const filteredData = $dataDisplay.filter((elem) => {
 			for (let key in filterValues){
-				console.log(filterValues)
-				if(!elem[columnName].toString().toLowerCase().includes(filterValues[key].toLowerCase())){
-					console.log('deleted',elem[columnName], filterValues[key])
+				if(!elem[key].toString().toLowerCase().includes(filterValues[key].toLowerCase())){
 					return false
 				}
 			}
 			return true
 		});
-		dataDisplay.set(filteredData[value]); 
-		}
+		dataDisplay.set(filteredData); 
 	}
 
 	function sortBy(event, i) {
