@@ -7,9 +7,12 @@
 	import { isSorted } from './store';
 	export let dataSet = [];
 	let currentData = [];
+	let searchedData = {};
+	let filteredData = {};
 	let isSortedAtoZ = false;
 	let arrowArr = [];
 	let searchValue = '';
+	let filterValues = {};
 	const keys = Object.keys(dataSet[0]);
 
 	/* PSEUDOCODE
@@ -41,14 +44,20 @@
 
 	function search(event) {
 		dataDisplay.set([...dataSet])
-		let searchedData = $dataDisplay.filter((elem) => {
+		if(searchedData[searchValue]){
+			dataDisplay.set(searchedData[searchValue])
+			return
+		} else {
+		searchedData[searchValue] = $dataDisplay.filter((elem) => {
 			for (let key in elem) {
 				if (elem[key].toString().includes(searchValue.toString().toLowerCase())) {
 					return elem;
 				}
 			}
 		});
-		dataDisplay.set(searchedData);
+		dataDisplay.set(searchedData[searchValue]);
+		console.log($dataDisplay)
+		};
 	}
 
 	/** filterBy's purpose
@@ -57,17 +66,33 @@
 	 */
 
 	function filterBy(event, columnName) {
-		search(); //invoking search to refresh data array if the input is changed or deleted.
+		search();
+		let output = []
 		const { value } = event.target;
-		const filteredData = $dataDisplay.filter((elem) => {
-			return elem[columnName].toString().toLowerCase().includes(value.toLowerCase());
-		}); //checks for the value on the object's passed in columnName key.
-		dataDisplay.set(filteredData);
+		if (filteredData[value] || filteredData[value] === 0){
+			output = [...output, ...filteredData[value]]
+		} else {
+		filterValues[columnName] = value;
+		filteredData[value] = $dataDisplay.filter((elem) => {
+			for (let key in filterValues){
+				console.log(filterValues)
+				if(!elem[columnName].toString().toLowerCase().includes(filterValues[key].toLowerCase())){
+					console.log('deleted',elem[columnName], filterValues[key])
+					return false
+				}
+			}
+			return true
+		});
+		dataDisplay.set(filteredData[value]); 
+		}
 	}
 
 	function sortBy(event, i) {
 		let index = i;
 		const obj = {}; //creating empty object to allow setting a key with a variable
+		for (let a = 0; a < keys.length; a += 1) {
+			arrowArr[a] = '';
+		}
 		const sortedData = $dataDisplay; //grabs the current display data from the store and stores it in a new array
 		const { displayValue, isAtoZSort } = event.detail; //grabs the passed up display value from the child component and destructures
 		if (!$isSorted[displayValue]) {//if the isSorted object doesn't have the display value as a key execute sort funtionality
@@ -75,6 +100,7 @@
 			isSorted.set(obj); //setting the display value as a key on the isSorted object and giving it a count
 			sortedData.sort(function (a, b) {
 				if (typeof a[displayValue] === 'number') {//this will sort if the display value is a number
+					arrowArr[index] = '🔼';
 					return a[displayValue] - b[displayValue];
 				} 
 				const aValue = a[displayValue].toLowerCase(); //assigning the passed in arguments as variables and accounting for different letterrcases
@@ -99,6 +125,7 @@
 			isSorted.set({}); //reseting the isSorted object to an empty object indicating the column is no longer sorted
 			const originalData = [...dataSet]; //creating new array so that dataSet is not mutated when dataDiplay is set to the original array that was passed in
 			dataDisplay.set(originalData); //resetting the display data to the original data's sort order
+			arrowArr[index] = '';
 		}
 	}
 </script>
