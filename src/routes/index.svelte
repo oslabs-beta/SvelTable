@@ -17,7 +17,7 @@
 		};
 	}
 
-	let userDefinedNum = 100;
+	let userDefinedNum = 20;
 
 	let data = [];
 
