@@ -1,6 +1,5 @@
-
 <script>
-	import SvelTable from '../lib/SvelTable.svelte';
+	import SvelTable from '../SvelTable/SvelTable.svelte';
 	import namor from 'namor';
 	//adding more object will add rows
 	//adding more key/value pair will add columns
@@ -17,7 +16,7 @@
 		};
 	}
 
-	let userDefinedNum = 20;
+	let userDefinedNum = 100;
 
 	let data = [];
 
