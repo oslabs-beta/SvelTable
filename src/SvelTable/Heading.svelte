@@ -8,16 +8,6 @@
 
 	export let isSortedAtoZ;
 	const dispatch = createEventDispatcher();
-	/* Create handler for resetting 'columnWidth' at specific 'colID':
-		- colID correspond to specific column index
-		- handleColResize will access columnWidth[colID] and increase OR decrease that value
-		- every cell/heading dependent on that value will respond to the change
-		- 
-			(Look into accessing local storage)We can save frontend width data into client's local storage in their browser;
-				have logic to check client's local storage first to see if there's a width valuye in there
-				if there is, use that instead
-				
-	*/
 	let resizing = false;
 	let originalWidth = 0;
 	let originalMouseX = 0;
@@ -46,6 +36,7 @@
 			});
 			window.addEventListener('mouseup', () => {
 				resizing = false;
+				localStorage.setItem('localColumnWidth', JSON.stringify($columnWidth));
 				window.removeEventListener('mousemove', (e) => {
 					if (resizing) {
 						$columnWidth[colID] = originalWidth + (e.pageX - originalMouseX);

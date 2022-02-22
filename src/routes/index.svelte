@@ -1,4 +1,3 @@
-
 <script>
 	import SvelTable from '../SvelTable/SvelTable.svelte';
 	import namor from 'namor';
@@ -17,7 +16,7 @@
 		};
 	}
 
-	let userDefinedNum = 20;
+	let userDefinedNum = 100;
 
 	let data = [];
 
