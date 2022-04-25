@@ -4,17 +4,17 @@ SvelTable is a feature rich, data table component built with Svelte.  Import you
 
 Current features include:
 * Full Table Search Bar
-* Indivudal Column Search Bars
+* Individual Column Search Bars
 * Multi-Input Filtering
-* Row Sorting Alphabetically or Numerically
+* Column Sorting Alphabetically or Numerically
 * Column Resizing
 
 ## SetUp
-1.) Use the package manager [npm](https://docs.npmjs.com/) to install Sveltable.
+1.) Use the package manager [npm](https://docs.npmjs.com/) to install SvelTable.
 ```bash
 npm install sveltable
 ```
-2.) Import sveltables to your svelte file.
+2.) Import sveltable to your svelte file.
 ```bash
 import SvelTable from 'sveltable';
 ```
