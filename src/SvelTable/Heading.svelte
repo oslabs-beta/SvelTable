@@ -2,6 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	export let displayText = '';
 	export let arrow = '';
+	export let imageIcons;
 	export let colID = 0;
 
 	import { columnWidth, columnMinWidth, overflowwrap } from './store';
@@ -21,7 +22,11 @@
 		'px'}; overflow-wrap: {$overflowwrap};"
 >
 	{displayText}
-	{arrow}
+	{#if (imageIcons)}
+		<img src={arrow} alt="">
+	{:else}
+		{arrow}
+	{/if}
 	<div
 		class="resizer"
 		on:mousedown={(e) => {

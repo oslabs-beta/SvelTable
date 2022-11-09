@@ -16,6 +16,24 @@
 	let filterValues = {};
 	const keys = Object.keys(dataSet[0]);
 
+	export let upArrow = '▲';
+	export let downArrow = '▼';
+
+	// allow for custom images to be used for sorting
+	let imageExtensions = [".jpg", ".jpeg", ".png", ".svg", ".webp"];
+	let upImage = false;
+	let downImage = false;
+	let imageIcons
+	$: imageIcons = upImage && downImage;
+	imageExtensions.forEach((item) => {
+		if (upArrow.endsWith(item)) {
+			upImage = true;
+		}
+		if (downArrow.endsWith(item)) {
+			downImage = true;
+		}
+	});
+
 	onMount(() => {
 		currentData = [...dataSet];
 		dataDisplay.set(currentData); //setting the dataDisplay state to the passed in data array.
@@ -116,14 +134,14 @@
 			sortedData.sort(function (a, b) {
 				if (typeof a[displayText] === 'number') {
 					//this will sort if the display value is a number
-					arrowArr[index] = '🔼';
+					arrowArr[index] = upArrow;
 					return a[displayText] - b[displayText];
 				}
 				const aValue = a[displayText].toLowerCase(); //assigning the passed in arguments as variables and accounting for different letterrcases
 				const bValue = b[displayText].toLowerCase();
 				if (aValue > bValue) {
 					//sort functionality if the display value is a string
-					arrowArr[index] = '🔼';
+					arrowArr[index] = upArrow;
 					return 1;
 				}
 				if (aValue < bValue) {
@@ -135,7 +153,7 @@
 		} else if ($isSorted[displayText].count === 1) {
 			//if the display value exists as a key on the isSorted object and the count is 1
 			sortedData.reverse(); //instead of sorting the array in backwords order we are reversing the array
-			arrowArr[index] = '🔽';
+			arrowArr[index] = downArrow;
 			obj[displayText] = { sortBool: true, count: 2 }; //incrementing count. Is there a better way to do this?
 			isSorted.set(obj);
 			dataDisplay.set(sortedData); //setting the state of our display data to the sortedData array
@@ -167,6 +185,7 @@
 				on:sortBy={(e) => sortBy(e, i)}
 				displayText={heading}
 				arrow={arrowArr[i]}
+				imageIcons={imageIcons}
 				bind:isSortedAtoZ
 				colID={i}
 			/>

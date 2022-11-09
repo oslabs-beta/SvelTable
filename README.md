@@ -15,24 +15,33 @@ Current features include:
 npm install sveltable
 ```
 2.) Import sveltable to your svelte file.
-```bash
+```js
 import SvelTable from 'sveltable';
 ```
 
 3.) Declare a data array inside script tag to import data to.
-```bash
+```html
 <script>
   import SvelTable from 'sveltable';
   let data = [];
 </script>
 ```
 4.) Use dataSet method to render a SvelTable with your data.
-```bash
+```html
 <SvelTable dataSet={data} />
 ```
 5.) By default SvelTable will display up to 30 rows before adding a scroll bar.  This can be changed by setting numRows to your desired number.
-```bash
+```html
 <SvelTable dataSet={data} numRows={[Your Number]}/>
+```
+
+6.) Add custom filtering icons (Image or Emoji). Images (.png, .jpeg, .webp) are able to be used however SVGs are recommended due to much easier sizing.
+```html
+<!-- Image Based -->
+<SvelTable dataSet={data} upArrow="static/upArrow.svg" downArrow="static/downArrow.svg"/>
+
+<!-- Text Based -->
+<SvelTable dataSet={data} upArrow="🔼" downArrow="🔽"/>
 ```
 
 ## Contributing
